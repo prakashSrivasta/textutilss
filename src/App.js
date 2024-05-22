@@ -4,7 +4,7 @@ import About from "./components/About";
 import Navbar from "./components/Navbar";
 import TextForm from "./components/TextForm";
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const [mode, setMode] = useState("light");
@@ -12,7 +12,6 @@ function App() {
   console.log("hcdjh", alert);
 
   const showAlert = (message, type) => {
-    console.log("sdhagjh", message);
     setAlert({
       msg: message,
       type: type,
@@ -29,6 +28,8 @@ function App() {
       document.body.style.backgroundColor = "#042743";
       showAlert("Dark mode has been enabled", "success");
       document.title = "TextUtils - Dark Mode";
+
+      
       // setInterval(() => {
       //   document.title = "TextUtils is Amazing now";
       // }, 2000);
@@ -54,13 +55,16 @@ function App() {
         <Routes>
           {/* /users ---> Component 1
           /users.home ---> Component 2 */}
-          <Route exact path="/about"  element={<About />} />
-          <Route exact path="/" element={ <TextForm
+          <Route exact path="/about"  element={<About mode={mode}/>} />
+          <Route exact path="/" element={ 
+          <TextForm
           showAlert={showAlert}
-          heading="Enter the text to analyze below"
+          heading="Try Textutils - Word Counter, Character Counter, Remove extra spaces "
           mode={mode}
-        /> }/>
-        </Routes>      
+          toggleMode={toggleMode}
+        /> 
+         }/>
+        </Routes>    
       </div>
     </Router>
     </>

@@ -5,39 +5,45 @@ export default function TextForm(props) {
     // console.log("Uppercase was clicked " + text);
     const newText = text.toUpperCase();
     setText(newText);
-    props.showAlert("Converted to Upper Case", "success")
+    props.showAlert("Converted to Upper Case", "success");
   };
 
   const handleLowClick = () => {
     let newText = text.toLowerCase();
     setText(newText);
-    props.showAlert("Converted to Lower Case", "success")
-  }
+    props.showAlert("Converted to Lower Case", "success");
+  };
 
   const handleClearText = () => {
-    let newText =("");
+    let newText = "";
     setText(newText);
-  }
-const toSentenceCase = (text) => {
-  return text.toLowerCase().split(". ").map(sentence => sentence.charAt(0).toUpperCase() + sentence.slice(1)).join('. ');
-}
+    props.showAlert("Clear Text", "success");
+  };
+  
 
-
-  const handleSentenceCase =() => {
-    const newText = toSentenceCase(text);
-    setText(newText);
-  }
+  const handleSentenceCase = () => {
+    const newText = text
+    .toLowerCase()
+    .split(". ")
+    .map((sentence) => sentence.charAt(0).toUpperCase() + sentence.slice(1))
+    .join(". ");
+    setText(newText);    
+    props.showAlert("Became Sentences", "success")
+  };
 
   const handleCopy = () => {
-    let copyText = document.getElementById('myBox');
+    let copyText = document.getElementById("myBox");
     copyText.select();
-    navigator.clipboard.writeText(text)   
-  }
+    navigator.clipboard.writeText(text);
+    document.getSelection().removeAllRanges();
+    props.showAlert("Copy to Clipboard", "success")
+  };
 
   const handleExtraSpaces = () => {
     let extraSpaceText = text.split(/[ ]+/);
     setText(extraSpaceText.join(" "));
-  }
+    props.showAlert("Remove extra spaces", "success")
+  };
 
   const handleOnChange = (event) => {
     // console.log("On change was clicked");
@@ -45,8 +51,8 @@ const toSentenceCase = (text) => {
   };
   const [text, setText] = useState("");
   const countWords = (text) => {
-    return text.split(" ").filter((word) =>word.length > 0).length;
-  }
+    return text.split(" ").filter((word) => word.length > 0).length;
+  };
 
   // const one  = (text) => {
   //   const wordArray = text.split(" ");
@@ -59,8 +65,11 @@ const toSentenceCase = (text) => {
   // }
   return (
     <>
-      <div className="container" style={{color: props.mode === 'dark' ? 'white' : '#042743'}}>
-          <h1>{props.heading}</h1>
+      <div
+        className="container"
+        style={{ color: props.mode === "dark" ? "white" : "#042743" }}
+      >
+        <h2 className="mb-4">{props.heading}</h2>
         <div className="my-3">
           <textarea
             className="form-control"
@@ -69,66 +78,72 @@ const toSentenceCase = (text) => {
             onChange={handleOnChange}
             placeholder="Enter the text here"
             rows="10"
-            style={{backgroundColor: props.mode === 'dark' ? 'grey' : 'white', color: props.mode === 'dark' ? 'white' : '#042743'}}
+            style={{
+              backgroundColor: props.mode === "dark" ? "#13466e" : "white",
+              color: props.mode === "dark" ? "white" : "#042743",
+            }}
           ></textarea>
         </div>
         <button
-          className="btn btn-primary mx-1"
+          className="btn btn-primary mx-1 my-1"
+          disabled={text.length === 0}
           onClick={handleUpClick}
         >
           Convert to Uppercase
         </button>
 
         <button
-          className="btn btn-primary mx-1"
+          className="btn btn-primary mx-1 my-1"
+          disabled={text.length === 0}
           onClick={handleLowClick}
         >
           Convert to Lowercase
         </button>
 
         <button
-          className="btn btn-primary mx-1"
-          onClick={handleClearText}
-        >
-          Clear Text
-        </button>
-
-        <button
-          className="btn btn-primary mx-1"
+          className="btn btn-primary mx-1 my-1"
+          disabled={text.length === 0}
           onClick={handleSentenceCase}
         >
           Convert to Sentence Case
         </button>
 
         <button
-          className="btn btn-primary mx-1"
+          className="btn btn-primary mx-1 my-1"
+          disabled={text.length === 0}
           onClick={handleCopy}
         >
           Copy Text
         </button>
 
         <button
-          className="btn btn-primary mx-1"
+          className="btn btn-primary mx-1 my-1"
+          disabled={text.length === 0}
           onClick={handleExtraSpaces}
         >
-         Remove Extra Spaces
+          Remove Extra Spaces
+        </button>
+
+        <button
+          className="btn btn-primary mx-1 my-1"
+          disabled={text.length === 0}
+          onClick={handleClearText}
+        >
+          Clear Text
         </button>
       </div>
 
-      <div className="container my-3" style={{color: props.mode === 'dark' ? 'white' : '#042743'}}>
-        <h2 >Your text here</h2>
+      <div
+        className="container my-3"
+        style={{ color: props.mode === "dark" ? "white" : "#042743" }}
+      >
+        <h2>Your text here</h2>
         <p>
-          {countWords(text)} words and {text.length}{" "}
-          Characters
+          {countWords(text)} words and {text.length} Characters
         </p>
-        <p>
-          {0.008 * countWords(text)} Minutes read.
-        </p>
-        <h2>
-          Preview
-        </h2>
-        <p>{text.length > 0 ? text : "Enter something in the textbox above to preview it here"}</p>
-        
+        <p>{0.008 * countWords(text)} Minutes read.</p>
+        <h2>Preview</h2>
+        <p>{text.length > 0 ? text : "Not to preview"}</p>
       </div>
     </>
   );
