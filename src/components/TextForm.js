@@ -51,7 +51,7 @@ export default function TextForm(props) {
   };
   const [text, setText] = useState("");
   const countWords = (text) => {
-    return text.split(" ").filter((word) => word.length > 0).length;
+    return text.split(/\s+/).filter((word) => word.length > 0).length;
   };
 
   // const one  = (text) => {

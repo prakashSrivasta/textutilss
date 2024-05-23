@@ -9,7 +9,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   const [mode, setMode] = useState("light");
   const [alert, setAlert] = useState(null);
-  console.log("hcdjh", alert);
 
   const showAlert = (message, type) => {
     setAlert({
@@ -22,7 +21,20 @@ function App() {
     setAlert(null);
   }, 3000);
 
-  const toggleMode = () => {
+  const removeClasses = () => {
+    document.body.classList.remove("bg-light");
+    document.body.classList.remove("bg-dark");
+    document.body.classList.remove("bg-primary");
+    document.body.classList.remove("bg-danger");
+    document.body.classList.remove("bg-success");
+    document.body.classList.remove("bg-warning");
+  }
+  
+  const toggleMode = (cls) => {
+    console.log(cls);
+    removeClasses();
+
+    document.body.classList.add('bg-'+cls)
     if (mode === "light") {
       setMode("dark");
       document.body.style.backgroundColor = "#042743";
@@ -55,15 +67,16 @@ function App() {
         <Routes>
           {/* /users ---> Component 1
           /users.home ---> Component 2 */}
-          <Route exact path="/about"  element={<About mode={mode}/>} />
-          <Route exact path="/" element={ 
+          <Route path="/about"  element={<About mode={mode}/>} />
+          <Route path="/" element={ 
           <TextForm
           showAlert={showAlert}
           heading="Try Textutils - Word Counter, Character Counter, Remove extra spaces "
           mode={mode}
           toggleMode={toggleMode}
         /> 
-         }/>
+         }
+         />
         </Routes>    
       </div>
     </Router>
